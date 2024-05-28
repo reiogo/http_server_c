@@ -1,10 +1,10 @@
 CC=gcc
 CFLAGS= -g
 
-tcpserver: tcp_server.c
+tcpserver: tcpserver.c
 	$(CC) $(CFLAGS) -o tcpserver tcpserver.c
 	
-tcpclient: tcp_client.c
+tcpclient: tcpclient.c
 	$(CC) $(CFLAGS) -o tcpclient tcpclient.c
 
 
