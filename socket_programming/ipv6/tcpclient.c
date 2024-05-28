@@ -12,6 +12,7 @@
 #include <sys/time.h>
 #include <sys/ioctl.h>
 #include <netdb.h>
+#include <netinet/in.h>
 
 //standard HTTP port
 #define SERVER_PORT 80
@@ -27,7 +28,7 @@ int main(int argc, char **argv)
 {
     int             sockfd, n; //socket file descriptor
     int             sendbytes;
-    struct sockaddr_in  servaddr;
+    struct sockaddr_in6  servaddr6;
     char            sendline[MAXLINE];
     char            recvline[MAXLINE];
 
@@ -38,25 +39,25 @@ int main(int argc, char **argv)
 
 
     // create a socket
-    if( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    if( (sockfd = socket(AF_INET6, SOCK_STREAM, 0)) < 0)
         err_n_die("Error while creating the socket!");
 
 
     // clear the memory at servaddr
-    bzero(&servaddr, sizeof(servaddr));
+    bzero(&servaddr6, sizeof(servaddr6));
     // specify address family
-    servaddr.sin_family = AF_INET;
+    servaddr6.sin6_family = AF_INET6;
     // specify name of the server port
-    servaddr.sin_port   = htons(SERVER_PORT);
+    servaddr6.sin6_port   = htons(SERVER_PORT);
     
     
     // str to binary representation of ip address
-    if (inet_pton(AF_INET, argv[1], &servaddr.sin_addr) <= 0)
+    if (inet_pton(AF_INET6, argv[1], &servaddr6.sin6_addr) <= 0)
         err_n_die("inet_pton error for %s ", argv[1]);
 
 
     //  try to connect to the server
-    if (connect(sockfd, (SA *) &servaddr, sizeof(servaddr)) < 0)
+    if (connect(sockfd, (SA *) &servaddr6, sizeof(servaddr6)) < 0)
         err_n_die("connect failed!");
 
     // here we've connected. now preparing a message to send back
@@ -111,5 +112,3 @@ void err_n_die(const char *fmt, ...)
     // this is the die part. terminate with an error
     exit (1);
 }
-
-

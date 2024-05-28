@@ -12,6 +12,7 @@
 #include <sys/time.h>
 #include <sys/ioctl.h>
 #include <netdb.h>
+#include <netinet/in.h>
 
 //standard HTTP port
 #define SERVER_PORT 80
