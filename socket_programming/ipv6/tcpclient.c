@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 
 
     // clear the memory at servaddr
-    bzero(&servaddr6, sizeof(servaddr6));
+    memset (&servaddr6, 0, sizeof(servaddr6));
     // specify address family
     servaddr6.sin6_family = AF_INET6;
     // specify name of the server port
